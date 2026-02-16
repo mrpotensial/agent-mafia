@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Mafia — AI Social Deduction on Monad</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header>
+      <h1>AGENT MAFIA</h1>
+      <p class="subtitle">AI Social Deduction on Monad Blockchain</p>
+      <p class="tagline">AI agents that lie, manipulate, and detect deception — with real money on the line.</p>
+    </header>
+
+    <!-- How It Works (collapsed by default) -->
+    <section id="how-it-works">
+      <details>
+        <summary>How It Works</summary>
+        <div class="how-content">
+          <div class="how-step">
+            <span class="step-num">1</span>
+            <div><strong>AI Agents Join</strong> — 5-7 AI agents with unique personalities enter the game and pay entry fee (MON)</div>
+          </div>
+          <div class="how-step">
+            <span class="step-num">2</span>
+            <div><strong>Roles Assigned</strong> — Mafia, Detective, Doctor, or Villager. Mafia must stay hidden.</div>
+          </div>
+          <div class="how-step">
+            <span class="step-num">3</span>
+            <div><strong>Day: Debate</strong> — Agents accuse, defend, lie, and manipulate each other using LLM reasoning</div>
+          </div>
+          <div class="how-step">
+            <span class="step-num">4</span>
+            <div><strong>Day: Vote</strong> — Majority vote eliminates a suspect. Were they Mafia or innocent?</div>
+          </div>
+          <div class="how-step">
+            <span class="step-num">5</span>
+            <div><strong>Night</strong> — Mafia kills, Detective investigates, Doctor saves. All AI-driven.</div>
+          </div>
+          <div class="how-step">
+            <span class="step-num">6</span>
+            <div><strong>Spectators Wager</strong> — Before game starts, bet MON on which team wins. Losers fund winners. 10% platform fee.</div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- Lobby -->
+    <section id="lobby-section">
+      <h2>ACTIVE GAMES</h2>
+      <div id="lobby-list">
+        <div class="lobby-empty">No active games. Create one below.</div>
+      </div>
+    </section>
+
+    <!-- Controls -->
+    <section id="controls">
+      <div class="control-row">
+        <button id="btn-create" class="btn btn-primary">New Game</button>
+        <select id="select-players">
+          <option value="5">5 Players</option>
+          <option value="6">6 Players</option>
+          <option value="7">7 Players</option>
+        </select>
+        <button id="btn-start" class="btn btn-accent" disabled>Start Game</button>
+        <button id="btn-next-game" class="btn btn-next hidden" disabled>Next Game</button>
+      </div>
+      <div class="control-row">
+        <span id="game-id" class="label">No game</span>
+        <span id="game-status" class="label status-lobby">--</span>
+        <span id="entry-fee" class="label">Entry: 0.1 MON</span>
+        <span id="ws-status" class="label">WS: disconnected</span>
+        <span id="master-indicator" class="label"></span>
+      </div>
+    </section>
+
+    <!-- Town Scene -->
+    <section id="town-scene" class="hidden">
+      <div class="town-bg-layer">
+        <img src="assets/town-bg.svg" alt="" class="town-bg-img"/>
+      </div>
+      <div class="night-overlay" id="night-overlay"></div>
+      <div class="town-campfire" id="campfire">
+        <div class="campfire-glow"></div>
+        <div class="campfire-flame"></div>
+      </div>
+      <div class="town-characters" id="town-characters"></div>
+      <div class="town-label">Click a character to view their card</div>
+    </section>
+
+    <!-- Card Modal (Yu-Gi-Oh style) -->
+    <div id="card-modal" class="card-modal hidden">
+      <div class="card-modal-backdrop"></div>
+      <div class="yugioh-card" id="yugioh-card">
+        <div class="card-close">&times;</div>
+        <div class="card-border">
+          <div class="card-name" id="card-name">Agent Name</div>
+          <div class="card-type" id="card-type">Personality</div>
+          <div class="card-portrait">
+            <img id="card-portrait-img" src="" alt="" class="card-portrait-img"/>
+          </div>
+          <div class="card-role-badge hidden" id="card-role-badge">???</div>
+          <div class="card-description" id="card-description">
+            <span class="card-desc-label">EFFECT</span>
+            <p id="card-desc-text">Personality description goes here...</p>
+          </div>
+          <div class="card-stats">
+            <span class="card-stat" id="card-stat-status">ALIVE</span>
+            <span class="card-stat" id="card-stat-role">ROLE: ???</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div id="main-grid">
+      <!-- Players Panel -->
+      <section id="players-panel">
+        <h2>Players</h2>
+        <div id="players-list"></div>
+
+        <!-- Wager Station -->
+        <div id="wager-section" class="hidden">
+          <h3>Wager Station</h3>
+
+          <!-- Wager Input Area (hidden when game starts, only input part) -->
+          <div id="wager-input-area">
+            <!-- Team Bet (only bet type — placed before game starts) -->
+            <p class="wager-hint">Bet which team wins before the game starts!</p>
+            <div class="wager-odds">
+              <div class="odds-row">
+                <span class="odds-label">Village</span>
+                <span class="odds-value" id="odds-village">--</span>
+              </div>
+              <div class="odds-row">
+                <span class="odds-label">Mafia</span>
+                <span class="odds-value" id="odds-mafia">--</span>
+              </div>
+            </div>
+            <div class="wager-predict">
+              <button class="predict-btn village" data-pred="village">Village Wins</button>
+              <button class="predict-btn mafia" data-pred="mafia">Mafia Wins</button>
+            </div>
+
+            <!-- Amount Input -->
+            <div class="wager-amount-row">
+              <label class="amount-label">Amount (MON):</label>
+              <input type="number" id="wager-amount" value="0.1" min="0.01" max="10" step="0.01"/>
+              <div class="quick-amounts">
+                <button class="quick-amt" data-amt="0.05">0.05</button>
+                <button class="quick-amt" data-amt="0.1">0.1</button>
+                <button class="quick-amt" data-amt="0.25">0.25</button>
+                <button class="quick-amt" data-amt="0.5">0.5</button>
+                <button class="quick-amt" data-amt="1.0">1.0</button>
+              </div>
+            </div>
+
+            <!-- Place Bet Button -->
+            <button id="place-wager-btn" class="btn btn-accent">Place Wager</button>
+            <div id="wager-info"></div>
+          </div>
+
+          <!-- Pool Visualization -->
+          <div id="wager-pool-viz" class="hidden">
+            <h4>Pool</h4>
+            <div class="pool-bar">
+              <div class="pool-segment village" id="pool-village-bar"></div>
+              <div class="pool-segment mafia" id="pool-mafia-bar"></div>
+            </div>
+            <div class="pool-stats">
+              <span id="pool-total">Total: 0 MON</span>
+              <span id="pool-bets">0 bets</span>
+            </div>
+          </div>
+
+          <!-- Your Wagers -->
+          <div id="my-wagers" class="hidden">
+            <h4>Your Wagers</h4>
+            <div id="my-wagers-list"></div>
+          </div>
+
+          <!-- Settlement Results -->
+          <div id="settlement-results" class="hidden">
+            <h4>Settlement</h4>
+            <div id="settlement-list"></div>
+            <div id="settlement-summary"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Game Log -->
+      <section id="game-log">
+        <h2>Game Log</h2>
+        <div id="log-container"></div>
+      </section>
+
+      <!-- Info Panel -->
+      <section id="info-panel">
+        <h2>Game Info</h2>
+        <div id="phase-display">
+          <span class="phase-label">Phase</span>
+          <span id="current-phase" class="phase-value">--</span>
+        </div>
+        <div id="round-display">
+          <span class="phase-label">Round</span>
+          <span id="current-round" class="phase-value">--</span>
+        </div>
+        <div id="alive-display">
+          <span class="phase-label">Alive</span>
+          <span id="alive-count" class="phase-value">--</span>
+        </div>
+        <div id="result-display" class="hidden">
+          <h3 id="winner-text"></h3>
+          <div id="game-summary"></div>
+        </div>
+
+        <!-- On-Chain Info -->
+        <div id="onchain-section" class="hidden">
+          <h3>On-Chain</h3>
+          <div id="onchain-info">
+            <div class="onchain-row">
+              <span class="onchain-label">Contract</span>
+              <a id="onchain-address" href="#" target="_blank" class="onchain-link">--</a>
+            </div>
+            <div class="onchain-row">
+              <span class="onchain-label">Create Tx</span>
+              <a id="onchain-create-tx" href="#" target="_blank" class="onchain-link">--</a>
+            </div>
+            <div class="onchain-row hidden" id="onchain-finish-row">
+              <span class="onchain-label">Finish Tx</span>
+              <a id="onchain-finish-tx" href="#" target="_blank" class="onchain-link">--</a>
+            </div>
+            <div class="onchain-row hidden" id="onchain-commit-row">
+              <span class="onchain-label">Commit Tx</span>
+              <a id="onchain-commit-tx" href="#" target="_blank" class="onchain-link">--</a>
+            </div>
+            <div class="onchain-row hidden" id="onchain-reveal-row">
+              <span class="onchain-label">Reveal Tx</span>
+              <a id="onchain-reveal-tx" href="#" target="_blank" class="onchain-link">--</a>
+            </div>
+            <div class="onchain-badge hidden" id="onchain-verified" style="color:#22c55e;border-color:#22c55e">Roles Verified On-Chain</div>
+            <div class="onchain-badge">Monad Testnet (10143)</div>
+          </div>
+        </div>
+
+        <!-- Form Guide (Stats → Wager) -->
+        <div id="form-guide-section" class="hidden">
+          <h3>Form Guide</h3>
+          <div id="form-guide-list"></div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div id="leaderboard-section" class="hidden">
+          <h3>Leaderboard</h3>
+          <div id="leaderboard-list"></div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div id="tech-section">
+          <h3>Tech Stack</h3>
+          <div class="tech-item">AI: Gemini via OpenRouter</div>
+          <div class="tech-item">Chain: Monad (10K+ TPS)</div>
+          <div class="tech-item">Backend: Fastify + WebSocket</div>
+          <div class="tech-item">Contract: Solidity (EVM)</div>
+          <div class="tech-item">Tests: 158 passing</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>Agent Mafia — Moltiverse Hackathon 2026 — Built for Monad</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

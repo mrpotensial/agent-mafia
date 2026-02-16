@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Neat brown hair -->
+  <rect x="5" y="1" width="6" height="1" fill="#664422"/>
+  <rect x="4" y="2" width="8" height="1" fill="#664422"/>
+  <rect x="5" y="2" width="6" height="1" fill="#553311"/>
+  <!-- Face -->
+  <rect x="4" y="3" width="1" height="1" fill="#664422"/>
+  <rect x="5" y="3" width="6" height="1" fill="#F4C69B"/>
+  <rect x="11" y="3" width="1" height="1" fill="#664422"/>
+  <rect x="5" y="4" width="6" height="1" fill="#F4C69B"/>
+  <!-- Warm determined eyes -->
+  <rect x="6" y="4" width="1" height="1" fill="#664422"/>
+  <rect x="9" y="4" width="1" height="1" fill="#664422"/>
+  <!-- Lower face (warm smile) -->
+  <rect x="5" y="5" width="6" height="1" fill="#F4C69B"/>
+  <rect x="7" y="5" width="2" height="1" fill="#E8A080"/>
+  <!-- Neck -->
+  <rect x="7" y="6" width="2" height="1" fill="#F4C69B"/>
+  <!-- Brown outfit with shield emblem -->
+  <rect x="4" y="7" width="8" height="1" fill="#885533"/>
+  <rect x="3" y="8" width="10" height="1" fill="#885533"/>
+  <rect x="7" y="8" width="2" height="1" fill="#AAAA44"/>
+  <rect x="3" y="9" width="10" height="1" fill="#774422"/>
+  <rect x="7" y="9" width="2" height="1" fill="#AAAA44"/>
+  <rect x="4" y="10" width="8" height="1" fill="#885533"/>
+  <rect x="5" y="11" width="6" height="1" fill="#774422"/>
+  <!-- Legs -->
+  <rect x="5" y="12" width="2" height="1" fill="#3A3A5A"/>
+  <rect x="9" y="12" width="2" height="1" fill="#3A3A5A"/>
+  <rect x="5" y="13" width="2" height="1" fill="#3A3A5A"/>
+  <rect x="9" y="13" width="2" height="1" fill="#3A3A5A"/>
+  <!-- Feet -->
+  <rect x="4" y="14" width="3" height="1" fill="#553311"/>
+  <rect x="9" y="14" width="3" height="1" fill="#553311"/>
+</svg>

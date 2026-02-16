@@ -1,0 +1,39 @@
+{
+  "name": "agent-mafia",
+  "version": "0.1.0",
+  "description": "AI Social Deduction Game on Monad Blockchain",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/api/server.ts",
+    "build": "tsc",
+    "start": "node dist/api/server.js",
+    "game": "tsx scripts/run-game.ts",
+    "demo": "tsx scripts/demo.ts",
+    "compile": "tsx scripts/compile-contracts.ts",
+    "deploy": "tsx scripts/deploy-contracts.ts",
+    "test:onchain": "tsx scripts/test-onchain.ts",
+    "token": "tsx scripts/launch-token.ts",
+    "test": "vitest",
+    "lint": "biome check ."
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0",
+    "@fastify/static": "^9.0.0",
+    "@fastify/websocket": "^11.0.0",
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^16.4.0",
+    "ethers": "^6.0.0",
+    "fastify": "^5.0.0",
+    "openai": "^4.0.0",
+    "sql.js": "^1.11.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/node": "^22.0.0",
+    "solc": "^0.8.33",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.0.0"
+  }
+}

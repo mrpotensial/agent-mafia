@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Short neat dark hair -->
+  <rect x="5" y="1" width="6" height="1" fill="#443322"/>
+  <rect x="4" y="2" width="8" height="1" fill="#443322"/>
+  <!-- Face -->
+  <rect x="4" y="3" width="1" height="1" fill="#443322"/>
+  <rect x="5" y="3" width="6" height="1" fill="#F4C69B"/>
+  <rect x="11" y="3" width="1" height="1" fill="#443322"/>
+  <rect x="5" y="4" width="6" height="1" fill="#F4C69B"/>
+  <!-- Eyes with monocle on right eye -->
+  <rect x="6" y="4" width="1" height="1" fill="#2D2D2D"/>
+  <rect x="8" y="3" width="2" height="2" fill="#88CCFF"/>
+  <rect x="9" y="4" width="1" height="1" fill="#2D2D2D"/>
+  <rect x="10" y="5" width="1" height="1" fill="#88CCFF"/>
+  <!-- Lower face (stern) -->
+  <rect x="5" y="5" width="6" height="1" fill="#F4C69B"/>
+  <rect x="7" y="5" width="2" height="1" fill="#C4965B"/>
+  <!-- Neck -->
+  <rect x="7" y="6" width="2" height="1" fill="#F4C69B"/>
+  <!-- Dark blue outfit -->
+  <rect x="4" y="7" width="8" height="1" fill="#223355"/>
+  <rect x="3" y="8" width="10" height="1" fill="#223355"/>
+  <rect x="3" y="9" width="10" height="1" fill="#112244"/>
+  <rect x="4" y="10" width="8" height="1" fill="#223355"/>
+  <rect x="5" y="11" width="6" height="1" fill="#112244"/>
+  <!-- Legs -->
+  <rect x="5" y="12" width="2" height="1" fill="#2A2A3A"/>
+  <rect x="9" y="12" width="2" height="1" fill="#2A2A3A"/>
+  <rect x="5" y="13" width="2" height="1" fill="#2A2A3A"/>
+  <rect x="9" y="13" width="2" height="1" fill="#2A2A3A"/>
+  <!-- Feet -->
+  <rect x="4" y="14" width="3" height="1" fill="#1D1D2D"/>
+  <rect x="9" y="14" width="3" height="1" fill="#1D1D2D"/>
+</svg>
